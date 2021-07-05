@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 
 public class NoteHandler extends FileHandler{
 	
-	private final String expiredPath="nota_scaduta";
+	private final String expiredPath="expired_note";
 	
 	public NoteHandler(File toBeWritten){
 		super(toBeWritten);
@@ -42,7 +42,8 @@ public class NoteHandler extends FileHandler{
 		
 		try {
 			toBeWrittenHandler.save(toBeWritten);
-			executor.sendMessage(ChatColor.WHITE+"[DevilNotes] "+ChatColor.GOLD+"Nota creata sul giocatore " + ChatColor.WHITE+ args[1]);
+			executor.sendMessage(ChatColor.WHITE+Utils.CONSOLE_LOG_PREFIX+ChatColor.GOLD+
+					"Note created on player " + ChatColor.WHITE+ args[1]);
 		} catch (IOException e) {
 			
 		}
@@ -85,7 +86,7 @@ public class NoteHandler extends FileHandler{
 							for(String preciseDate: preciseDateSet){
 								
 								String preciseDatePath=datePath+"."+preciseDate;
-								String finalIntestation=tmpIntestation2+" "+preciseDate+", scrive: ";
+								String finalIntestation=tmpIntestation2+" "+preciseDate+", writes: ";
 								List<String> partialNotes=toBeWrittenHandler.getStringList(preciseDatePath);
 								addNotes(finalIntestation,partialNotes);
 							}

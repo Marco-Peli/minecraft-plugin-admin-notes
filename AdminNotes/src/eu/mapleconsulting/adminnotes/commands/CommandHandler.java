@@ -8,12 +8,14 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import eu.mapleconsulting.adminnotes.util.Utils;
+
 public class CommandHandler {
 
-	private final String notPlayerMessage="Solo un giocatore puo' eseguire questo comando";
-	private final String invalidArgsMessage="Argomenti non validi, uso corretto:";
-	private final String invalidCommand="Comando non valido, /note help per i comandi disponibili";
-	private final String invalidPermissions="Non hai i permessi per eseguire questo comando";
+	private final String notPlayerMessage="Only a player can execute this command.";
+	private final String invalidArgsMessage="Invalid args, usage:";
+	private final String invalidCommand="Invalid command, /note help for available commands.";
+	private final String invalidPermissions="You don't have permission to run this command.";
 	private List<CommandInterface> commands;
 
 	public CommandHandler() {
@@ -29,13 +31,16 @@ public class CommandHandler {
 			for (CommandInterface cmd : commands) {
 				if (cmd.isThisCommand(executedCommand.getName(), args[0])) {
 					if (!cmd.isValidArgsRange(args.length)) {
-					player.sendMessage(ChatColor.DARK_RED+invalidArgsMessage);
-					player.sendMessage(ChatColor.GOLD+cmd.getUsage());
+					player.sendMessage(ChatColor.WHITE+Utils.CONSOLE_LOG_PREFIX+
+							ChatColor.DARK_RED+invalidArgsMessage);
+					player.sendMessage(ChatColor.WHITE+Utils.CONSOLE_LOG_PREFIX+
+							ChatColor.GOLD+cmd.getUsage());
 					return true;
 					}else if(player.hasPermission(cmd.getPermission())){
 						return cmd.execute(player,args);
 					}else{
-						player.sendMessage(ChatColor.WHITE+"[DevilNotes] "+ChatColor.DARK_RED+invalidPermissions);
+						player.sendMessage(ChatColor.WHITE+Utils.CONSOLE_LOG_PREFIX+
+								ChatColor.DARK_RED+invalidPermissions);
 						return true;
 					}
 				}

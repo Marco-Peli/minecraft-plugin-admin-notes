@@ -9,6 +9,7 @@ import eu.mapleconsulting.adminnotes.EmailManager;
 import eu.mapleconsulting.adminnotes.exceptions.CommandFormatException;
 import eu.mapleconsulting.adminnotes.exceptions.EmailNotFoundException;
 import eu.mapleconsulting.adminnotes.util.EmailSender;
+import eu.mapleconsulting.adminnotes.util.Utils;
 
 public class SendRecordByMailCommand extends CommandPattern {
 
@@ -21,8 +22,8 @@ public class SendRecordByMailCommand extends CommandPattern {
 		this.plugin=plugin;
 		this.emailManager = plugin.getEmailManager();
 		this.configManager=plugin.getConfigManager();
-		setDescription("Invia via mail il file con il registro di note scritte da <autore>");
-        setUsage("/note sendmerecord <autore>");
+		setDescription("Send to your saved e-mail the record with notes written by <author>");
+        setUsage("/note sendmerecord <author>");
         setArgumentRange(2, 2);
         setIdentifier("sendmerecord");
         setPermission("note.command.sendmerecord");
@@ -33,13 +34,14 @@ public class SendRecordByMailCommand extends CommandPattern {
 		try{
 			plugin.getEmailManager().getPlayerEmail(executor);
 		}catch(EmailNotFoundException ex){
-			executor.sendMessage(ChatColor.WHITE+"[DevilNotes] "+ChatColor.DARK_RED+"Nessuna mail trovata");
+			executor.sendMessage(ChatColor.WHITE+Utils.CONSOLE_LOG_PREFIX+
+					ChatColor.DARK_RED+"You have not saved your e-mail. /note addmail <e-mail> to save.");
 			return true;
 		}
 		(new EmailSender(emailManager, configManager,
 				executor, args, configManager.getNotesFolderPath(),
-				"Darkworld RecordNotes Service", "Registro di note scritto da "+
-				args[1], "Registro di note scritto da "+args[1], configManager.getSmtpAddress())).runTaskAsynchronously(plugin);
+				"AdminNotes", "Note record of notes written by "+
+				args[1], "Note record of notes written by "+args[1], configManager.getSmtpAddress())).runTaskAsynchronously(plugin);
 		return true;
 	}
 

@@ -47,8 +47,8 @@ public class EmailSender extends BukkitRunnable {
 		
 			String playerMail=emailManager.getPlayerEmail(executor);
 			if(!noteToBeSent.exists()) {
-				executor.sendMessage(ChatColor.WHITE+"[DevilNotes] "+ChatColor.DARK_RED+
-						"Il file di note sul giocatore richiesto non esiste");
+				executor.sendMessage(ChatColor.WHITE+Utils.CONSOLE_LOG_PREFIX+ChatColor.DARK_RED+
+						"There is no note file about the requested player");
 				return;
 			}
 			//creazione mail
@@ -63,13 +63,13 @@ public class EmailSender extends BukkitRunnable {
 			email.body(body);
 			SMTP.addFileAttachment(email, noteToBeSent);
 			
-			executor.sendMessage(ChatColor.GOLD+"Sara' ora inviato alla mail " + ChatColor.WHITE+playerMail);
+			executor.sendMessage(ChatColor.WHITE+Utils.CONSOLE_LOG_PREFIX + ChatColor.GOLD+"The requested file will be now sent to email " + ChatColor.WHITE+playerMail);
 			SMTP.sendEmail(smtpAddress, darkMail, 
 					darkPass, email, false); 
-			executor.sendMessage(ChatColor.GOLD+"File inviato!");
+			executor.sendMessage(ChatColor.WHITE+Utils.CONSOLE_LOG_PREFIX + ChatColor.GOLD+"File sent!");
 			
 		} catch (Exception e) {
-			executor.sendMessage(ChatColor.WHITE+"[DevilNotes] "+ChatColor.DARK_RED+"Errore durante l'invio");
+			executor.sendMessage(ChatColor.WHITE+Utils.CONSOLE_LOG_PREFIX +ChatColor.DARK_RED+"An error occurred during the sending");
 		} 
 	}
 }

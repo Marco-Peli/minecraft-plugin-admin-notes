@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import eu.mapleconsulting.adminnotes.AdminNotes;
 import eu.mapleconsulting.adminnotes.util.RecordHandler;
 import eu.mapleconsulting.adminnotes.util.UUIDFetcher;
+import eu.mapleconsulting.adminnotes.util.Utils;
 
 public class CreateRecordCommand extends CommandPattern {
 
@@ -18,8 +19,8 @@ public class CreateRecordCommand extends CommandPattern {
 		super("note","record");
 		this.notesRecordFolderPath=plugin.getConfigManager().getNotesRecordFolderPath();
 		this.notesFolder=plugin.getConfigManager().getNotesFolder();
-		setDescription("Crea un registro con le note che hanno come autore <autore>");
-        setUsage("/note record <autore>");
+		setDescription("Creates a record file with notes that have <author> as author");
+        setUsage("/note record <author>");
         setArgumentRange(2, 2);
         setIdentifier("record");
         setPermission("note.command.record");
@@ -31,15 +32,16 @@ public class CreateRecordCommand extends CommandPattern {
 			String authorUUID=UUIDFetcher.getUUIDFromName(args[1]).toLowerCase();
 			File toBeWritten=new File(notesRecordFolderPath+authorUUID+".yml");
 			File[] noteFiles=notesFolder.listFiles();
-			if(noteFiles.length==0){ executor.sendMessage(ChatColor.WHITE+"[DevilNotes] "+ChatColor.DARK_RED+""
-					+ "Cartella note vuota");
+			if(noteFiles.length==0){ executor.sendMessage(ChatColor.WHITE+Utils.CONSOLE_LOG_PREFIX+ChatColor.DARK_RED+""
+					+ "Notes folder is empty");
 					return true;
 					}
 			RecordHandler recordHandler=new RecordHandler(toBeWritten);
 			recordHandler.createNewRecord(authorUUID, noteFiles);
-			return recordHandler.saveFile(executor, "Nessuna nota scritta da ",args[1]);			
+			return recordHandler.saveFile(executor, "No notes found written by ",args[1]);			
 		}catch (Exception e) {
-			executor.sendMessage(ChatColor.WHITE+"[DevilNotes] "+ChatColor.DARK_RED+"Giocatore inesistente");
+			executor.sendMessage(ChatColor.WHITE+Utils.CONSOLE_LOG_PREFIX+
+					ChatColor.DARK_RED+"Invalid player name");
 			return true;
 		}
 		

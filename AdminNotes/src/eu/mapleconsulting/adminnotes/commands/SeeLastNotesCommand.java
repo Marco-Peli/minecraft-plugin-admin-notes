@@ -9,18 +9,19 @@ import eu.mapleconsulting.adminnotes.AdminNotes;
 import eu.mapleconsulting.adminnotes.exceptions.CommandFormatException;
 import eu.mapleconsulting.adminnotes.util.NoteHandler;
 import eu.mapleconsulting.adminnotes.util.UUIDFetcher;
+import eu.mapleconsulting.adminnotes.util.Utils;
 
 public class SeeLastNotesCommand extends CommandPattern {
 
 	private String notesFolderPath;
-	private final String errorMessage="Nessuna nota su ";
-	private final String message=" NOTE SU ";
+	private final String errorMessage="No note on ";
+	private final String message=" NOTES ON ";
 	
 	public SeeLastNotesCommand(AdminNotes plugin) {
 		super("note","seelast");
 		this.notesFolderPath=plugin.getConfigManager().getNotesFolderPath();
-		setDescription("Vedi le ultime <#note> a carico di <giocatore>, tutte se <#note> assente");
-        setUsage("/note seelast <giocatore> <#note/authors>");
+		setDescription("Displayes the last <#notes_number> on player <player>, all of them if <#notes_number> is missing");
+        setUsage("/note seelast <player> <#notes_number/authors>");
         setArgumentRange(2, 3);
         setIdentifier("seelast");
         setPermission("note.command.seelast");
@@ -33,13 +34,14 @@ public class SeeLastNotesCommand extends CommandPattern {
 			authorUUID=UUIDFetcher.getUUIDFromName(args[1]).toLowerCase();
 			
 		} catch (Exception e) {
-			executor.sendMessage(ChatColor.WHITE+"[DevilNotes] "+ChatColor.DARK_RED+"Giocatore non trovato");
+			executor.sendMessage(ChatColor.WHITE+Utils.CONSOLE_LOG_PREFIX+
+					ChatColor.DARK_RED+"Player not found.");
 			return true;
 		} 
 		File note = new File(notesFolderPath+authorUUID+".yml");
 			if(!note.exists()) {
-				executor.sendMessage(ChatColor.WHITE+"[DevilNotes] "+ChatColor.DARK_RED+
-						"Nessuna nota sul giocatore trovata");
+				executor.sendMessage(ChatColor.WHITE+Utils.CONSOLE_LOG_PREFIX+ChatColor.DARK_RED+
+						"No note on player found.");
 				return true;
 			}
 			NoteHandler noteHandler=new NoteHandler(note);
@@ -47,7 +49,7 @@ public class SeeLastNotesCommand extends CommandPattern {
 			if(args.length==2){
 				noteHandler.seeLast();
 				return noteHandler.displayNotes(executor, 
-						args[1], errorMessage, "TUTTE LE"+message,"");
+						args[1], errorMessage, "ALL"+message,"");
 			}else{
 				try{
 					
@@ -61,8 +63,8 @@ public class SeeLastNotesCommand extends CommandPattern {
 						noteHandler.writeAuthors();
 						return noteHandler.showAuthors(executor,args[1]);
 					}else{
-					executor.sendMessage(ChatColor.WHITE+"[DevilNotes] "+ChatColor.DARK_RED+
-							"Comando non valido");
+					executor.sendMessage(ChatColor.WHITE+Utils.CONSOLE_LOG_PREFIX+ChatColor.DARK_RED+
+							"Invalid command, see /hote help.");
 					}
 				}
 			}	

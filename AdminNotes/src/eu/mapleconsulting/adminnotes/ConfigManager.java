@@ -9,6 +9,8 @@ import java.nio.file.Paths;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
+import eu.mapleconsulting.adminnotes.util.Utils;
+
 public class ConfigManager {
 	
 	private final String CONFIG_NAME="config.yml";
@@ -17,18 +19,19 @@ public class ConfigManager {
 	private final int DEFAULT_NOTE_EXPIRING_TIME=60;
 	private final int DEFAULT_RECORD_NOTE_EXPIRING_TIME=7;
 	private final int DEFAULT_PORT=59666;
-	private final String DEFAULT_MAIL="darkworld.infobot@gmail.com";
-	private final String DEFAULT_PASSWORD="forgottenmerda";
-	private final String DEFAULT_UPDATE_SERVER="devilkurt.homepc.it";
-	private final boolean DEFAULT_LOOK_FOR_UPDATES=true;
+	private final String DEFAULT_MAIL=""; //"darkworld.infobot@gmail.com";
+	private final String DEFAULT_PASSWORD=""; //"forgottenmerda";
+	private final String DEFAULT_UPDATE_SERVER=""; //"devilkurt.homepc.it";
+	private final boolean DEFAULT_LOOK_FOR_UPDATES=false;
+	private final String DEFAULT_LANG="en";
 	
 	//default yml paths
-	private final String DEFAULT_NOTE_LENGTH_PATH="max_lunghezza_nota_chars";
-	private final String DEFAULT_NOTE_EXPIRING_TIME_PATH="scadenza_nota_giorni";
-	private final String DEFAULT_RECORD_NOTE_EXPIRING_TIME_PATH="scadenza_registro_note_giorni";
-	private final String DEFAULT_UPDATE_SERVER_PATH="server_update";
-	private final String DEFAULT_PORT_PATH="porta_server_update";
-	private final String DEFAULT_LOOK_FOR_UPDATES_PATH="ricerca_aggiornamenti";
+	private final String DEFAULT_NOTE_LENGTH_PATH="max_note_length_chars";
+	private final String DEFAULT_NOTE_EXPIRING_TIME_PATH="note_expiring_time_days";
+	private final String DEFAULT_RECORD_NOTE_EXPIRING_TIME_PATH="records_expire_time_days";
+	private final String DEFAULT_UPDATE_SERVER_PATH="update_server_addr";
+	private final String DEFAULT_PORT_PATH="update_server_port";
+	private final String DEFAULT_LOOK_FOR_UPDATES_PATH="look_for_updates";
 	
 	//variables
 	private FileConfiguration customConfig;
@@ -62,14 +65,14 @@ public class ConfigManager {
 	private synchronized void createFolderPaths(){
 		File util=new File("util.txt");
 		Path path=Paths.get(util.getAbsolutePath());
-		String rootPlugin=path.getParent().getParent().toString();
+		String rootPlugin=path.getParent().toString();
 		configFolderPath=rootPlugin+File.separator+"DevilNotes" + File.separator;
 		File configFolder = new File (configFolderPath);
 		if(!configFolder.exists()){
 			configFolder.mkdirs();
 		}
-		notesFolderPath=rootPlugin+File.separator+"DevilNotes/Notes" + File.separator;
-		notesRecordFolderPath=rootPlugin+File.separator+"DevilNotes/NotesRecords" + File.separator;
+		notesFolderPath=rootPlugin+File.separator+"AdminNotes/Notes" + File.separator;
+		notesRecordFolderPath=rootPlugin+File.separator+"AdminNotes/NotesRecords" + File.separator;
 	}
 
 	private synchronized void loadConfig(){
@@ -79,14 +82,14 @@ public class ConfigManager {
 			try {
 				createDefaultCfg();
 			} catch (IOException e) {
-				System.out.println("[DevilNotes] Impossibile creare il file di configurazione :/");
+				Utils.printConsoleMsg("Impossibile creare il file di configurazione :/");
 			}
 		}
 		try {
 			readConfigData();
 
 		} catch (FileNotFoundException e) {
-			System.out.println("[DevilNotes] Nessun file di configurazione trovato :/");
+			Utils.printConsoleMsg("Nessun file di configurazione trovato :/");
 		}
 	}
 
@@ -103,7 +106,7 @@ public class ConfigManager {
 	}
 
 	private synchronized void createDefaultCfg() throws IOException{
-		System.out.print("Creando il file di configurazione per il primo avvio del plugin...");
+		Utils.printConsoleMsg("Creando il file di configurazione per il primo avvio del plugin...");
 		customConfig.set(DEFAULT_NOTE_LENGTH_PATH, DEFAULT_NOTE_LENGTH);
 		customConfig.set(DEFAULT_NOTE_EXPIRING_TIME_PATH,DEFAULT_NOTE_EXPIRING_TIME);
 		customConfig.set(DEFAULT_RECORD_NOTE_EXPIRING_TIME_PATH,DEFAULT_RECORD_NOTE_EXPIRING_TIME);
@@ -117,7 +120,7 @@ public class ConfigManager {
 		customConfig.set("notifica_staff", true);
 		customConfig.set("numero_note_per_notifica", 2);
 		customConfig.save(configFile);
-		System.out.println("[DevilNotes] File di configurazione di default creato!");
+		Utils.printConsoleMsg("File di configurazione di default creato!");
 	}
 
 	private synchronized void readConfigData() throws FileNotFoundException{
@@ -133,7 +136,7 @@ public class ConfigManager {
 		notifyPlayer=customConfig.getBoolean("notifica_giocatore");
 		notifyStaff=customConfig.getBoolean("notifica_staff");
 		warnings=customConfig.getInt("numero_note_per_notifica");
-		System.out.println("[DevilNotes] File di configurazione correttamente caricato!");
+		Utils.printConsoleMsg("File di configurazione correttamente caricato!");
 	}
 	/**
 	 * @return the maxNoteLength

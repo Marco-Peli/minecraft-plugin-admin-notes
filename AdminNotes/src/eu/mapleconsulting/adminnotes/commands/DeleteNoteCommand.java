@@ -11,6 +11,7 @@ import eu.mapleconsulting.adminnotes.AdminNotes;
 import eu.mapleconsulting.adminnotes.exceptions.CommandFormatException;
 import eu.mapleconsulting.adminnotes.util.AutoAbortThread;
 import eu.mapleconsulting.adminnotes.util.UUIDFetcher;
+import eu.mapleconsulting.adminnotes.util.Utils;
 
 public class DeleteNoteCommand extends CommandPattern {
 
@@ -21,8 +22,8 @@ public class DeleteNoteCommand extends CommandPattern {
 		super("note", "delete");
 		this.plugin=plugin;
 		notesFolderPath=plugin.getConfigManager().getNotesFolderPath();
-		setDescription("Cancella un file di note su un giocatore");
-		setUsage("/note delete <giocatore>");
+		setDescription("Deletes a note file about player <player>");
+		setUsage("/note delete <player>");
 		setArgumentRange(2, 2);
 		setIdentifier("delete");
 		setPermission("note.command.delete");
@@ -39,14 +40,15 @@ public class DeleteNoteCommand extends CommandPattern {
 		try {
 			playerUUID=UUIDFetcher.getUUIDFromName(args[1]);
 		} catch (Exception e) {
-			executor.sendMessage(ChatColor.WHITE+"[DevilNotes] "+ChatColor.DARK_RED+"Giocatore inesistente");
+			executor.sendMessage(ChatColor.WHITE+Utils.CONSOLE_LOG_PREFIX+
+					ChatColor.DARK_RED+"Invalid player name");
 			return true;
 		}
 		this.plugin.getToBeConfirmed().put(executor.getUniqueId().toString(), playerUUID);
 		new AutoAbortThread(this.plugin, executor).runTaskLater(plugin, 400);
-		executor.sendMessage(ChatColor.WHITE+"[DevilNotes] "+ChatColor.GOLD+
-				"Digita"+ ChatColor.WHITE+"/note confirm "+ChatColor.GOLD+"per confermare o "+ChatColor.WHITE+"/note abort "
-				+ ChatColor.GOLD+"per annullare, in 20 secondi verra' automaticamente annullata.");
+		executor.sendMessage(ChatColor.WHITE+Utils.CONSOLE_LOG_PREFIX+ChatColor.GOLD+
+				"Type"+ ChatColor.WHITE+"/note confirm "+ChatColor.GOLD+"to confirm or "+ChatColor.WHITE+"/note abort "
+				+ ChatColor.GOLD+"to abort. If you don't confirm, operation will be aborted in 20 seconds.");
 		return true;
 	}
 
@@ -59,28 +61,29 @@ public class DeleteNoteCommand extends CommandPattern {
 			targetUUID=UUIDFetcher.getUUIDFromName(args[1]);
 			fileName=notesFolderPath+targetUUID+".yml";
 		} catch (Exception e) {
-			executor.sendMessage(ChatColor.WHITE+"[DevilNotes] "+ChatColor.DARK_RED+"Giocatore inesistente");
+			executor.sendMessage(ChatColor.WHITE+Utils.CONSOLE_LOG_PREFIX+
+					ChatColor.DARK_RED+"Invalid player");
 			throw new CommandFormatException();
 		}
 
 		File note = new File(fileName);
 		if(!note.exists()) {
-			executor.sendMessage(ChatColor.WHITE+"[DevilNotes] "+ChatColor.DARK_RED+
-					"Nessun file di note sul giocatore trovato");
+			executor.sendMessage(ChatColor.WHITE+Utils.CONSOLE_LOG_PREFIX+ChatColor.DARK_RED+
+					"No note file found on the selected player.");
 			throw new CommandFormatException();
 		}
 
 		if(this.plugin.getToBeConfirmed().containsKey(executor.getUniqueId().toString())){
-			executor.sendMessage(ChatColor.WHITE+"[DevilNotes] "+ChatColor.DARK_RED+
-					"Hai gia' selezionato un file di note su "+ChatColor.WHITE+
+			executor.sendMessage(ChatColor.WHITE+Utils.CONSOLE_LOG_PREFIX+ChatColor.DARK_RED+
+					"you already selected a note file on "+ChatColor.WHITE+
 					Bukkit.getPlayer(UUID.fromString(plugin.getToBeConfirmed().get(executor.getUniqueId().toString()))).getName()
-					+ChatColor.DARK_RED+ " da eliminare!");
+					+ChatColor.DARK_RED+ " to be deleted!");
 			throw new CommandFormatException();
 		}
 		
 		if(!this.plugin.getToBeConfirmed().containsKey(executor.getUniqueId().toString()) &&  this.plugin.getToBeConfirmed().containsValue(targetUUID)){
-			executor.sendMessage(ChatColor.WHITE+"[DevilNotes] "+ChatColor.DARK_RED+
-					"Il file di note richiesto e' gia' stato selezionato per l'eliminazione da un altro giocatore.");
+			executor.sendMessage(ChatColor.WHITE+Utils.CONSOLE_LOG_PREFIX+ChatColor.DARK_RED+
+					"The requested note file is already being deleted by another player.");
 			throw new CommandFormatException();
 		}
 

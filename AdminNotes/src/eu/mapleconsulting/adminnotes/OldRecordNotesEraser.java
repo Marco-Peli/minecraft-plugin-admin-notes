@@ -5,6 +5,8 @@ import java.io.IOException;
 
 import org.bukkit.scheduler.BukkitRunnable;
 
+import eu.mapleconsulting.adminnotes.util.Utils;
+
 public class OldRecordNotesEraser extends BukkitRunnable {
 
 	private long expiringTime;
@@ -18,14 +20,14 @@ public class OldRecordNotesEraser extends BukkitRunnable {
 	}
 
 	public void run() {
-			System.out.println("Cercando registri di note scaduti da cancellare...");
-			try {
-				eraseOldRecordNotes(notesRecordFolder.listFiles());
-			} catch (IOException ioex){
-				ioex.printStackTrace();
-			}
+		Utils.printConsoleMsg("Looking for expired records files to be deleted...");
+		try {
+			eraseOldRecordNotes(notesRecordFolder.listFiles());
+		} catch (IOException ioex){
+			ioex.printStackTrace();
+		}
 	}
-	
+
 	private synchronized void eraseOldRecordNotes(File[] notesList) throws IOException{
 		int filesDeleted=0;
 		for(File f: notesList){
@@ -34,7 +36,7 @@ public class OldRecordNotesEraser extends BukkitRunnable {
 				filesDeleted++;
 			}
 		}
-		System.out.println("[DevilNotes] "+filesDeleted+" vecchi registri sono stati cancellati!");
+		Utils.printConsoleMsg(filesDeleted+" expired record files have been deleted!");
 	}
 
 	public long getHOURFACTOR() {

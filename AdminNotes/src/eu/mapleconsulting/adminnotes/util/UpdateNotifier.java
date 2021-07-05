@@ -43,7 +43,7 @@ public class UpdateNotifier extends Thread {
 			estabilishConnection();
 			checkForUpdates();
 		} catch (UnknownHostException e) {
-			System.out.println("[DevilNotes] Indirizzo del server update non valido.");
+			Utils.printConsoleMsg("Update server address invalid");
 		} catch (IOException e) {
 			System.out.println("[DevilNotes] Errore durante la connessione al server update.");
 		}

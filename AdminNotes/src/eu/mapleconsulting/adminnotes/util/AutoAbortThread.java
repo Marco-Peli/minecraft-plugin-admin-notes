@@ -22,10 +22,10 @@ public class AutoAbortThread extends BukkitRunnable {
 	@Override
 	public void run() {
 		if(plugin.getToBeConfirmed().containsKey(executor.getUniqueId().toString())){
-			 executor.sendMessage(ChatColor.WHITE+"[DevilNotes] "+ChatColor.GOLD+
-						"L'eliminazione del file di note su "+ChatColor.WHITE+
+			 executor.sendMessage(ChatColor.WHITE+Utils.CONSOLE_LOG_PREFIX+ChatColor.GOLD+
+						"The note deletion on player "+ChatColor.WHITE+
 						Bukkit.getPlayer(UUID.fromString(plugin.getToBeConfirmed().get(executor.getUniqueId().toString()))).getName()
-						+ChatColor.GOLD+ " e' stata automaticamente annullata.");
+						+ChatColor.GOLD+ " has been automatically aborted.");
 			 plugin.removeExecutor(executor);
 		}
 

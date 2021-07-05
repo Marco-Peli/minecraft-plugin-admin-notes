@@ -26,13 +26,13 @@ public abstract class FileHandler {
 	public boolean displayNotes(Player executor, int notesToDisplay,
 			String authorName, String error, String message, String messageLowerCase){
 		if(notesToBeDisplayed.size()==0){
-			executor.sendMessage(ChatColor.DARK_RED+error+ authorName);
+			executor.sendMessage(ChatColor.WHITE+Utils.CONSOLE_LOG_PREFIX+ChatColor.DARK_RED+error+ authorName);
 			return true;
 		}
 		try{
 			int index=notesToBeDisplayed.size()-notesToDisplay;
 			if(notesToDisplay>notesToBeDisplayed.size()) throw new NullPointerException();
-			executor.sendMessage("ULTIME " + notesToDisplay
+			executor.sendMessage("LAST " + notesToDisplay
 					+message + ChatColor.RED+ authorName+":");
 			for(int i=index; i<notesToBeDisplayed.size();i++){
 				int displayedIndex=i+1;
@@ -42,8 +42,8 @@ public abstract class FileHandler {
 			}
 			
 			}catch(NullPointerException e){
-				executor.sendMessage(ChatColor.WHITE+"[DevilNotes] "+ChatColor.DARK_RED+
-						"Hai inserito un range di ultime note non valido, sono presenti "+ChatColor.GOLD+""+
+				executor.sendMessage(ChatColor.WHITE+Utils.CONSOLE_LOG_PREFIX+ChatColor.DARK_RED+
+						"You inserted an invalid search range, there are "+ChatColor.GOLD+""+
 						+ notesToBeDisplayed.size()+ChatColor.DARK_RED+messageLowerCase+ ChatColor.GOLD+authorName);
 			}
 			return true;
@@ -59,8 +59,8 @@ public abstract class FileHandler {
 		try{
 			int index=notesToBeDisplayed.size()-notesToDisplay;
 			if(notesToDisplay>notesToBeDisplayed.size()) throw new NullPointerException();
-			executor.sendMessage("ULTIME " + notesToDisplay
-					+" SCRITTE DA " + ChatColor.RED+ author+" SU "+
+			executor.sendMessage("LAST " + notesToDisplay
+					+" WRITTEN BY " + ChatColor.RED+ author+" ON PLAYER "+
 						target+ChatColor.WHITE+":");
 			for(int i=index; i<notesToBeDisplayed.size();i++){
 				int displayedIndex=i+1;
@@ -70,10 +70,10 @@ public abstract class FileHandler {
 			}
 			
 			}catch(NullPointerException e){
-				executor.sendMessage(ChatColor.WHITE+"[DevilNotes] "+ChatColor.DARK_RED+
-						"Hai inserito un range di ultime note non valido, sono presenti "+ChatColor.GOLD+""+
-						+ notesToBeDisplayed.size()+ChatColor.DARK_RED+" note scritte da "+
-							ChatColor.GOLD+author+ChatColor.DARK_RED+" su "+ ChatColor.GOLD+target);
+				executor.sendMessage(ChatColor.WHITE+Utils.CONSOLE_LOG_PREFIX+ChatColor.DARK_RED+
+						"You inserted and invalid search range, there are "+ChatColor.GOLD+""+
+						+ notesToBeDisplayed.size()+ChatColor.DARK_RED+" notes written by "+
+							ChatColor.GOLD+author+ChatColor.DARK_RED+" about player "+ ChatColor.GOLD+target);
 			}
 			return true;
 	}
@@ -97,17 +97,19 @@ public abstract class FileHandler {
 	
 	public boolean saveFile(Player executor, String error, String author){
 		if(notesToBeDisplayed.size()==0){
-			executor.sendMessage(ChatColor.WHITE+"[DevilNotes] "+ChatColor.DARK_RED+error+ author);
+			executor.sendMessage(ChatColor.WHITE+Utils.CONSOLE_LOG_PREFIX+ChatColor.DARK_RED+error+ author);
 			return true;
 		}
 		try {
 			toBeWrittenHandler.save(toBeWritten);
 		} catch (IOException e) {
-			executor.sendMessage(ChatColor.WHITE+"[DevilNotes] "+ChatColor.DARK_RED+"Impossibile scrivere su file");
+			executor.sendMessage(ChatColor.WHITE+Utils.CONSOLE_LOG_PREFIX+
+					ChatColor.DARK_RED+"An error occurred while writing note on file");
 			return true;
 		}
-		executor.sendMessage(ChatColor.WHITE+"[DevilNotes] "+ChatColor.GOLD+"Registro di note scritto da "
-				+ ChatColor.WHITE+ author+ChatColor.GOLD+" creato correttamente");
+		executor.sendMessage(ChatColor.WHITE+Utils.CONSOLE_LOG_PREFIX+
+				ChatColor.GOLD+"Note record of notes written by "
+				+ ChatColor.WHITE+ author+ChatColor.GOLD+" successfully created");
 		return true;
 	}
 	
@@ -118,7 +120,8 @@ public abstract class FileHandler {
 	}
 	
 	public boolean showAuthors(Player executor, String target){
-		executor.sendMessage(ChatColor.WHITE+"[DevilNotes] "+"LISTA DI AUTORI SU " + ChatColor.RED+target+ChatColor.WHITE+":");
+		executor.sendMessage(ChatColor.WHITE+Utils.CONSOLE_LOG_PREFIX+
+				"AUTHOR LIST ON PLAYER " + ChatColor.RED+target+ChatColor.WHITE+":");
 		int index=1;
 		for(String authors: notesToBeDisplayed){
 			executor.sendMessage(ChatColor.GOLD+""+index+") "+ChatColor.WHITE+authors);

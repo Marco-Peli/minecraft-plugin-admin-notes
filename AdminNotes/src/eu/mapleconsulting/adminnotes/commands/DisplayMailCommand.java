@@ -5,6 +5,7 @@ import org.bukkit.entity.Player;
 
 import eu.mapleconsulting.adminnotes.exceptions.CommandFormatException;
 import eu.mapleconsulting.adminnotes.exceptions.EmailNotFoundException;
+import eu.mapleconsulting.adminnotes.util.Utils;
 import eu.mapleconsulting.adminnotes.AdminNotes;
 import eu.mapleconsulting.adminnotes.EmailManager;
 
@@ -15,7 +16,7 @@ public class DisplayMailCommand extends CommandPattern {
 	public DisplayMailCommand(AdminNotes plugin) {
 		super("note", "displaymail");
 		this.emailManager=plugin.getEmailManager();
-		setDescription("Visualizza la tua mail");
+		setDescription("Displays your e-mail saved in the database.");
         setUsage("/note displaymail");
         setArgumentRange(1, 1);
         setIdentifier("displaymail");
@@ -25,9 +26,11 @@ public class DisplayMailCommand extends CommandPattern {
 	@Override
 	public boolean execute(Player executor, String[] args) {
 		try{
-			executor.sendMessage(ChatColor.WHITE+"[DevilNotes] "+ChatColor.GOLD+"La tua mail e' " +ChatColor.WHITE+emailManager.getPlayerEmail(executor));
+			executor.sendMessage(ChatColor.WHITE+Utils.CONSOLE_LOG_PREFIX+ChatColor.GOLD+"Your e-mail is: " +
+		ChatColor.WHITE+emailManager.getPlayerEmail(executor));
 		}catch (EmailNotFoundException e){
-			executor.sendMessage(ChatColor.WHITE+"[DevilNotes] "+ChatColor.DARK_RED+"Nessuna mail trovata");
+			executor.sendMessage(ChatColor.WHITE+Utils.CONSOLE_LOG_PREFIX+
+					ChatColor.DARK_RED+"You have no e-mail saved in database.");
 		}
 		return true;
 	}

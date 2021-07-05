@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 
 import eu.mapleconsulting.adminnotes.AdminNotes;
 import eu.mapleconsulting.adminnotes.exceptions.CommandFormatException;
+import eu.mapleconsulting.adminnotes.util.Utils;
 
 public class NoteConfirmCommand extends CommandPattern {
 
@@ -19,7 +20,7 @@ public class NoteConfirmCommand extends CommandPattern {
 		super("note", "confirm");
 		this.plugin=plugin;
 		notesFolderPath=plugin.getConfigManager().getNotesFolderPath();
-		setDescription("Conferma cancellazione nota");
+		setDescription("Confirm the deletion of a note file.");
         setUsage("/note confirm");
         setArgumentRange(1, 1);
         setIdentifier("confirm");
@@ -32,8 +33,8 @@ public class NoteConfirmCommand extends CommandPattern {
 			String targetName=Bukkit.getPlayer(UUID.fromString(targetUUID)).getName();
 			return deleteNote(executor, targetName);
 		}else{
-			executor.sendMessage(ChatColor.WHITE+"[DevilNotes] "+ChatColor.DARK_RED+"Non hai "
-					+ "ancora selezionato nessuna nota da eliminare");
+			executor.sendMessage(ChatColor.WHITE+Utils.CONSOLE_LOG_PREFIX+
+					ChatColor.DARK_RED+"You didn't select any not to be deleted.");
 			return true;
 		}
 		
@@ -45,7 +46,7 @@ public class NoteConfirmCommand extends CommandPattern {
 		note.delete();
 		plugin.removeExecutor(executor);
 		executor.sendMessage(ChatColor.WHITE+"[DevilNotes] "+ChatColor.GOLD+
-				"File di note su "+ChatColor.WHITE+targetName+ChatColor.GOLD+ " eliminato");
+				"Note file on player "+ChatColor.WHITE+targetName+ChatColor.GOLD+ " successfully deleted.");
 		return true;
 	}
 	@Override

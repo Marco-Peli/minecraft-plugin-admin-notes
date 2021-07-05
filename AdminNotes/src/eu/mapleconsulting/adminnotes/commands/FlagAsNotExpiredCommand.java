@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import eu.mapleconsulting.adminnotes.AdminNotes;
 import eu.mapleconsulting.adminnotes.exceptions.CommandFormatException;
 import eu.mapleconsulting.adminnotes.util.ExpireCheck;
+import eu.mapleconsulting.adminnotes.util.Utils;
 
 public class FlagAsNotExpiredCommand extends CommandPattern {
 
@@ -17,7 +18,7 @@ public class FlagAsNotExpiredCommand extends CommandPattern {
 	public FlagAsNotExpiredCommand(AdminNotes plugin) {
 		super("note", "flagnotexpired");
 		this.plugin=plugin;
-		setDescription("Contrassegna le vecchie note come scadute, pronte per essere eliminate");
+		setDescription("Flags expired note files as NOT expired.");
         setUsage("/note flagnotexpired");
         setArgumentRange(1, 1);
         setIdentifier("flagnotexpired");
@@ -29,7 +30,8 @@ public class FlagAsNotExpiredCommand extends CommandPattern {
 	public boolean execute(Player executor, String[] args) {
 		File[] notesList=notesFolder.listFiles();
 		if(notesList.length==0){
-			executor.sendMessage(ChatColor.WHITE+"[DevilNotes] "+ChatColor.DARK_RED+"La cartella note e' vuota");
+			executor.sendMessage(ChatColor.WHITE+Utils.CONSOLE_LOG_PREFIX+
+					ChatColor.DARK_RED+"Note folder is empty.");
 			return true;
 		}
 		new ExpireCheck(plugin, false, executor).runTaskAsynchronously(this.plugin);
@@ -41,7 +43,8 @@ public class FlagAsNotExpiredCommand extends CommandPattern {
 			throws CommandFormatException {
 		File[] notesList=notesFolder.listFiles();
 		if(notesList.length==0){
-			executor.sendMessage(ChatColor.WHITE+"[DevilNotes] "+ChatColor.DARK_RED+"La cartella note e' vuota");
+			executor.sendMessage(ChatColor.WHITE+Utils.CONSOLE_LOG_PREFIX+
+					ChatColor.DARK_RED+"Note folder is empty.");
 			throw new CommandFormatException();
 		}
 	}

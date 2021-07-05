@@ -9,6 +9,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import eu.mapleconsulting.adminnotes.util.NoteHandler;
+import eu.mapleconsulting.adminnotes.util.Utils;
 
 public class Notify extends BukkitRunnable {
 
@@ -34,9 +35,9 @@ public class Notify extends BukkitRunnable {
 			boolean isWarned=note.getNotesToBeDisplayed().size()>=plugin.getConfigManager().getWarnings();
 			if(isWarned){
 				if(plugin.getConfigManager().isNotifyPlayer()){
-					event.getPlayer().sendMessage(ChatColor.WHITE+"[DevilNotes] "+ChatColor.GOLD+"Hai più di "+
-							ChatColor.WHITE+""+plugin.getConfigManager().getWarnings()+ChatColor.GOLD+" richiami a tuo carico,"
-							+ " comportati correttamente! Contatta lo staff per maggiori informazioni.");
+					event.getPlayer().sendMessage(ChatColor.WHITE+Utils.CONSOLE_LOG_PREFIX+ChatColor.GOLD+
+							"You have more than "+ ChatColor.WHITE+""+plugin.getConfigManager().getWarnings()+ChatColor.GOLD+
+							" reports on you, play fairly! Contact the staff for further informations.");
 				}
 				if(plugin.getConfigManager().isNotifyStaff()){
 					notifyStaff();
@@ -49,9 +50,9 @@ public class Notify extends BukkitRunnable {
 	private void notifyStaff(){
 		for (Player p : Bukkit.getServer().getOnlinePlayers()) {
 			if(p.hasPermission("note.command.notify")){
-				p.sendMessage(ChatColor.WHITE+"[DevilNotes] "+ChatColor.GOLD+"Il giocatore "+
-						ChatColor.WHITE+event.getPlayer().getName()+ChatColor.GOLD+" appena loggato ha più di "+
-						ChatColor.WHITE+""+plugin.getConfigManager().getWarnings()+ChatColor.GOLD+" richiami all'attivo.");
+				p.sendMessage(ChatColor.WHITE+Utils.CONSOLE_LOG_PREFIX+ChatColor.GOLD+"Player "+
+						ChatColor.WHITE+event.getPlayer().getName()+ChatColor.GOLD+" that just logged has more than "+
+						ChatColor.WHITE+""+plugin.getConfigManager().getWarnings()+ChatColor.GOLD+" reports.");
 			}
 		}
 	}

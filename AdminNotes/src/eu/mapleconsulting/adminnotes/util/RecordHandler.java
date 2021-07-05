@@ -35,7 +35,7 @@ public class RecordHandler extends FileHandler{
 					
 					for(String targetPlayerNick: targetPlayerNicks){
 						
-					String tmpIntestation1="Su "+targetPlayerNick+", il ";
+					String tmpIntestation1="About "+targetPlayerNick+", on ";
 					String targetPlayerPath=tmpAuthorNickPath+"."+targetPlayerNick;
 					Set<String> dateSet; 
 					dateSet=noteHandler.getConfigurationSection(targetPlayerPath).getKeys(false);
@@ -47,7 +47,7 @@ public class RecordHandler extends FileHandler{
 						preciseDateSet=noteHandler.getConfigurationSection(datePath).getKeys(false);	
 						for(String preciseDate: preciseDateSet){			
 							String preciseDatePath=datePath+"."+preciseDate;
-							String finalIntestation=tmpIntestation2+" "+preciseDate+", scrive: ";
+							String finalIntestation=tmpIntestation2+" "+preciseDate+", writes: ";
 							List<String> partialNotes=noteHandler.getStringList(preciseDatePath);
 							toBeWrittenHandler.set(preciseDatePath, partialNotes);
 							addNotes(finalIntestation,partialNotes);			

@@ -6,6 +6,7 @@ import java.io.IOException;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import eu.mapleconsulting.adminnotes.util.NoteHandler;
+import eu.mapleconsulting.adminnotes.util.Utils;
 
 public class OldNotesEraser extends BukkitRunnable{
 
@@ -21,7 +22,7 @@ public class OldNotesEraser extends BukkitRunnable{
 	}
 	@Override
 	public void run() {
-			System.out.println("Cercando note vecchie da cancellare...");
+			Utils.printConsoleMsg("Looking for expired notes files to deleted...");
 			try {
 				eraseOldNotes(notesFolder.listFiles());
 			} catch (IOException ioex){
@@ -39,7 +40,7 @@ public class OldNotesEraser extends BukkitRunnable{
 				filesDeleted++;
 			}
 		}
-		System.out.println("[DevilNotes] "+filesDeleted+" files di note scadute cancellati!");
+		Utils.printConsoleMsg(filesDeleted+" expired notes files deleted!");
 		
 	}
 	

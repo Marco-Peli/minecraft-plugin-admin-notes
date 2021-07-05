@@ -17,8 +17,8 @@ public class HelpCommand extends CommandPattern {
 	public HelpCommand(AdminNotes plugin) {
 		super("note", "help");
 		availableCommands=plugin.getCommandHandler().getCommands();
-		setDescription("Visualizza i comandi di DevilNotes");
-        setUsage("/note help #pagina[2 pagine]");
+		setDescription("Displays the commands of AdminNotes");
+        setUsage("/note help #page[2 pages]");
         setArgumentRange(1, 2);
         setIdentifier("help");
         setPermission("note.command.help");
@@ -34,17 +34,17 @@ public class HelpCommand extends CommandPattern {
 			}
 			if(!(pageNumber==1||pageNumber==2)){
 				executor.sendMessage(ChatColor.DARK_RED+
-						"Numero pagina non valido");
+						"Invalid page number.");
 				return true;
 			}
-			executor.sendMessage(ChatColor.RED+"PLAYERNOTES HELP PAGINA " +
+			executor.sendMessage(ChatColor.RED+"ADMINNOTES HELP PAGINA " +
 					ChatColor.WHITE+""+pageNumber +""+ChatColor.GOLD+":");
 			executor.sendMessage("-------------------------------");
 			
 			return displayHelpCommand(executor);
 		}catch(NumberFormatException e){
 			executor.sendMessage(ChatColor.DARK_RED+
-					"Devi inserire valore intero come numero pagina");
+					"Page number has to be an integer");
 		}
 		return true;
 		

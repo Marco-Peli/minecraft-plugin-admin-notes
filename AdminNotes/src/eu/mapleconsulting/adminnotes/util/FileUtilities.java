@@ -31,9 +31,10 @@ public class FileUtilities {
 			boolean isWarned=note.getNotesToBeDisplayed().size()>=configManager.getWarnings();
 			if(isWarned){
 				if(configManager.isNotifyPlayer()){
-					evt.getPlayer().sendMessage(ChatColor.WHITE+"[DevilNotes] "+ChatColor.GOLD+"Hai più di "+
-							ChatColor.WHITE+""+configManager.getWarnings()+ChatColor.GOLD+" richiami a tuo carico,"
-							+ " comportati correttamente! Contatta lo staff per maggiori informazioni.");
+					evt.getPlayer().sendMessage(ChatColor.WHITE+Utils.CONSOLE_LOG_PREFIX+
+							ChatColor.GOLD+"You have more than "+
+							ChatColor.WHITE+""+configManager.getWarnings()+ChatColor.GOLD+" on you,"
+							+ " behave properly! Contact the staff for further informations.");
 				}
 				if(configManager.isNotifyStaff()){
 					notifyStaff(evt, configManager);
@@ -45,9 +46,9 @@ public class FileUtilities {
 	private static void notifyStaff(PlayerJoinEvent evt, ConfigManager configManager){
 		for (Player p : Bukkit.getServer().getOnlinePlayers()) {
 			if(p.hasPermission("note.command.notify")){
-				p.sendMessage(ChatColor.WHITE+"[DevilNotes] "+ChatColor.GOLD+"Il giocatore "+
-						ChatColor.WHITE+evt.getPlayer().getName()+ChatColor.GOLD+" appena loggato ha più di "+
-						ChatColor.WHITE+""+configManager.getWarnings()+ChatColor.GOLD+" richiami all'attivo.");
+				p.sendMessage(ChatColor.WHITE+Utils.CONSOLE_LOG_PREFIX+ChatColor.GOLD+"Player "+
+						ChatColor.WHITE+evt.getPlayer().getName()+ChatColor.GOLD+" that has just logged, has more than "+
+						ChatColor.WHITE+""+configManager.getWarnings()+ChatColor.GOLD+" reports.");
 			}
 		}
 	}

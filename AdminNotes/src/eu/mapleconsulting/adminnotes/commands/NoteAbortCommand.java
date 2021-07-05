@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 
 import eu.mapleconsulting.adminnotes.AdminNotes;
 import eu.mapleconsulting.adminnotes.exceptions.CommandFormatException;
+import eu.mapleconsulting.adminnotes.util.Utils;
 
 public class NoteAbortCommand extends CommandPattern {
 
@@ -16,7 +17,7 @@ public class NoteAbortCommand extends CommandPattern {
 	public NoteAbortCommand(AdminNotes plugin) {
 		super("note", "abort");
 		this.plugin=plugin;
-		setDescription("Annulla l'eliminazione di un file di note");
+		setDescription("Abort the deletion of a note file.");
 		setUsage("/note abort");
 		setArgumentRange(1, 1);
 		setIdentifier("abort");
@@ -26,15 +27,15 @@ public class NoteAbortCommand extends CommandPattern {
 	@Override
 	public boolean execute(Player executor, String[] args) {
 		if(plugin.getToBeConfirmed().containsKey(executor.getUniqueId().toString())){
-			executor.sendMessage(ChatColor.WHITE+"[DevilNotes] "+ChatColor.GOLD+
-					"Hai hai correttamente annullato la cancellazione del file di note su "+ChatColor.WHITE+
+			executor.sendMessage(ChatColor.WHITE+Utils.CONSOLE_LOG_PREFIX+ChatColor.GOLD+
+					"You successfully canceled the deletion of note file on player "+ChatColor.WHITE+
 					Bukkit.getPlayer(UUID.fromString(plugin.getToBeConfirmed().get(executor.getUniqueId().toString()))).getName()
 					+ChatColor.GOLD+ "!");
 			plugin.removeExecutor(executor);
 			return true;
 		}else{
-			executor.sendMessage(ChatColor.WHITE+"[DevilNotes] "+ChatColor.DARK_RED+"Non hai "
-					+ "ancora selezionato nessuna nota da eliminare");
+			executor.sendMessage(ChatColor.WHITE+Utils.CONSOLE_LOG_PREFIX+ChatColor.DARK_RED+
+					"You didn't select any not to be deleted.");
 			return true;
 		}
 		

@@ -15,6 +15,7 @@ public class ExpireCheck extends BukkitRunnable {
 	private boolean choice;
 	private Player executor;
 	private final long DAYFACTOR=86400000;
+	private final String expiredNoteFileFlagPath = "expired_note";
 	
 	public ExpireCheck(AdminNotes plugin, boolean choice, Player executor) {
 		this.plugin=plugin;
@@ -31,33 +32,34 @@ public class ExpireCheck extends BukkitRunnable {
 			for(File f: plugin.getConfigManager().getNotesFolder().listFiles()){
 				noteToCheck= new NoteHandler(f);
 				if((System.currentTimeMillis()-f.lastModified())>(plugin.getConfigManager().getNotesExpiringTime()*DAYFACTOR)){
-					noteToCheck.getToBeWrittenHandler().set("nota_scaduta",true);
+					noteToCheck.getToBeWrittenHandler().set(expiredNoteFileFlagPath,true);
 					try {
 						noteToCheck.getToBeWrittenHandler().save(f);
 					} catch (IOException e) {
-						executor.sendMessage(ChatColor.WHITE+"[DevilNotes] "+ChatColor.DARK_RED+"E' avvenuto un problema durante il salvataggio del file :/");
+						executor.sendMessage(ChatColor.WHITE+Utils.CONSOLE_LOG_PREFIX+ChatColor.DARK_RED+
+								"An error occurred during the save of the file!");
 					}
 					notesExpired++;
 				}
 			}
-			executor.sendMessage(ChatColor.WHITE+"[DevilNotes] "+ChatColor.RED+""+notesExpired+
-					ChatColor.GOLD+" Note sono state flaggate come scadute!");
+			executor.sendMessage(ChatColor.WHITE+Utils.CONSOLE_LOG_PREFIX+ChatColor.RED+""+notesExpired+
+					ChatColor.GOLD+" notes have been flagged as expired!");
 		}
 		else{
 			//flagga le note scadute come NON scadute
 			for(File f: plugin.getConfigManager().getNotesFolder().listFiles()){
 				noteToCheck= new NoteHandler(f);
-				    if(noteToCheck.getToBeWrittenHandler().getBoolean("nota_scaduta")==true){
-				    	noteToCheck.getToBeWrittenHandler().set("nota_scaduta",false);
+				    if(noteToCheck.getToBeWrittenHandler().getBoolean(expiredNoteFileFlagPath)==true){
+				    	noteToCheck.getToBeWrittenHandler().set(expiredNoteFileFlagPath,false);
 				    	try {
 							noteToCheck.getToBeWrittenHandler().save(f);
 						} catch (IOException e) {
-							executor.sendMessage(ChatColor.WHITE+"[DevilNotes] "+ChatColor.DARK_RED+"E' avvenuto un problema durante il salvataggio del file :/");
+							executor.sendMessage(ChatColor.WHITE+Utils.CONSOLE_LOG_PREFIX+ChatColor.DARK_RED+"An error occurred during the save of the file!");
 						}
 				    }
 					
 				}
-			executor.sendMessage(ChatColor.WHITE+"[DevilNotes] "+ChatColor.GOLD+"Tutte le note sono state flaggate come NON scadute!");
+			executor.sendMessage(ChatColor.WHITE+Utils.CONSOLE_LOG_PREFIX+ChatColor.GOLD+"All notes have been flagged as NOT expired!");
 		}
 
 	}

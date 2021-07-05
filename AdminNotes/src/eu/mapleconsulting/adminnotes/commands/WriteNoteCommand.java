@@ -10,6 +10,7 @@ import eu.mapleconsulting.adminnotes.exceptions.CommandFormatException;
 import eu.mapleconsulting.adminnotes.util.FileUtilities;
 import eu.mapleconsulting.adminnotes.util.NoteHandler;
 import eu.mapleconsulting.adminnotes.util.UUIDFetcher;
+import eu.mapleconsulting.adminnotes.util.Utils;
 
 public class WriteNoteCommand extends CommandPattern {
 
@@ -20,8 +21,8 @@ public class WriteNoteCommand extends CommandPattern {
 		super("note","WriteNote");
 		this.notesFolderPath=plugin.getConfigManager().getNotesFolderPath();
 		this.maxNoteLength=plugin.getConfigManager().getMaxNoteLength();
-		setDescription("Scrivi una nota a carico di un giocatore");
-		setUsage("/note write <giocatore> [nota], max " + plugin.getConfigManager().getMaxNoteLength() + " chars");
+		setDescription("Write a note on player <player>");
+		setUsage("/note write <player> <note>, max " + plugin.getConfigManager().getMaxNoteLength() + " chars");
 		setArgumentRange(3, 1000);
 		setIdentifier("write");
 		setPermission("note.command.write");
@@ -35,16 +36,16 @@ public class WriteNoteCommand extends CommandPattern {
 			File playerNote = new File(notesFolderPath+ filePath+".yml");
 			String tmpNote=FileUtilities.argumentsAsString(2,(args.length),args);
 			if(tmpNote.length()>maxNoteLength){
-				player.sendMessage(ChatColor.WHITE+"[DevilNotes] "+ChatColor.DARK_RED+"Nota troppo lunga, max: " +
-						maxNoteLength + " chars");
+				player.sendMessage(ChatColor.WHITE+Utils.CONSOLE_LOG_PREFIX+
+						ChatColor.DARK_RED+"Note is too long, max: " + maxNoteLength + " chars");
 				return true;
 			}
 				NoteHandler noteHandler=new NoteHandler(playerNote);
 				noteHandler.writeNewNote(player, args);
 				return true;
 		}catch(Exception e){
-			player.sendMessage(ChatColor.WHITE+"[DevilNotes] "+ChatColor.DARK_RED+"Errore durante la scrittura su file,"
-					+ " giocatore inesistente");
+			player.sendMessage(ChatColor.WHITE+Utils.CONSOLE_LOG_PREFIX+
+					ChatColor.DARK_RED+"An error occurred during the write, player not found.");
 		}
 		return true;
 	}

@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import eu.mapleconsulting.adminnotes.AdminNotes;
 import eu.mapleconsulting.adminnotes.OldNotesEraser;
 import eu.mapleconsulting.adminnotes.OldRecordNotesEraser;
+import eu.mapleconsulting.adminnotes.util.Utils;
 
 public class CleanCommand extends CommandPattern {
 	
@@ -23,7 +24,7 @@ public class CleanCommand extends CommandPattern {
 		super("note","clean");
 		this.plugin=plugin;
 		setVariables(plugin);	
-		setDescription("Pulisce le vecchie note e registri");
+		setDescription("Deletes all note and record files marked as expired");
         setUsage("/note clean");
         setArgumentRange(1, 1);
         setIdentifier("clean");
@@ -32,7 +33,8 @@ public class CleanCommand extends CommandPattern {
 
 	@Override
 	public boolean execute(Player executor, String[] args) {
-		executor.sendMessage(ChatColor.WHITE+"[DevilNotes] "+ChatColor.GOLD+"Threads di pulizia correttamente avviati");
+		executor.sendMessage(ChatColor.WHITE+Utils.CONSOLE_LOG_PREFIX+ChatColor.GOLD+
+				"Scanning and deleting expired note and record files");
 		oldNotesEraser=new OldNotesEraser(notesExpiringTime, notesFolder);
 		oldRecordNotesEraser=new OldRecordNotesEraser(notesRecordExpireTime, notesRecordFolder);
 		oldNotesEraser.runTaskAsynchronously(this.plugin);

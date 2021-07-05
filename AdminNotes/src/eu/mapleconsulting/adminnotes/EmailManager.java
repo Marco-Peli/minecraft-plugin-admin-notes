@@ -11,6 +11,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import eu.mapleconsulting.adminnotes.exceptions.EmailNotFoundException;
+import eu.mapleconsulting.adminnotes.util.Utils;
 
 public class EmailManager {
 	private File emailRegistry;
@@ -26,7 +27,7 @@ public class EmailManager {
 			createEmailRegistry();	
 			loadEmailRegistry();	
 		} catch (IOException e) {
-			System.out.println("[DevilNotes] Registro mail vuoto");
+			Utils.printConsoleMsg("Registro mail vuoto");
 		}	
 		
 	}
@@ -36,7 +37,7 @@ public class EmailManager {
 			emailRegistry.createNewFile();
 			emailRegistryManager.set("emails."+"UUID", "email");
 			emailRegistryManager.save(emailRegistry);
-			System.out.println("[DevilNotes] Registro mail per il primo avvio creato");
+			Utils.printConsoleMsg("Created email database file for first boot");
 		}
 	}
 	
