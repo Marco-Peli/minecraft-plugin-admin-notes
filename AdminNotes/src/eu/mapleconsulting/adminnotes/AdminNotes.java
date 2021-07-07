@@ -10,6 +10,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import eu.mapleconsulting.adminnotes.commands.*;
 import eu.mapleconsulting.adminnotes.util.UpdateNotifier;
+import eu.mapleconsulting.adminnotes.util.Utils;
 
 public class AdminNotes extends JavaPlugin{
 
@@ -18,8 +19,7 @@ public class AdminNotes extends JavaPlugin{
 	private Map <String, String>toBeConfirmed;
 	private EmailManager emailManager;
 	private final double currentVersion=1.19;
-	private final String pluginName="DevilNotes";
-	//private UpdateNotifier update;
+	private final String pluginName="AdminNotes";
 
 	public void onEnable() {
 		configManager=new ConfigManager();
@@ -28,23 +28,15 @@ public class AdminNotes extends JavaPlugin{
 		addCommands();
 		registerTabCompleter();
 		registerEvents();
-		//lookForUpdates();
-		getLogger().info("DevilNotes avviato");	
+		Utils.printConsoleMsg("AdminNotes booted!");	
 	}
 
 	public void onDisable(){
-		getLogger().info("DevilNotes Stopped");
+		Utils.printConsoleMsg("AdminNotes stopped!");
 	}
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		return commandHandler.deploy(sender, cmd, label, args);
-	}
-
-	public void lookForUpdates(){
-		/*if(configManager.isLookForUpdates()){
-			update=new UpdateNotifier(this);
-			update.start();
-		}*/
 	}
 
 	private void addCommands(){

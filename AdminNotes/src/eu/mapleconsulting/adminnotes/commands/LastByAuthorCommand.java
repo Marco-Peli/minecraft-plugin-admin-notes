@@ -79,7 +79,7 @@ public class LastByAuthorCommand extends CommandPattern {
 			if(args.length==3){
 			recordHandler.createNewRecord(authorUUID, noteFiles);
 			return recordHandler.displayNotes(executor, 
-					args[1], errorMessage, "ALL"+message," SU "+ args[2]);
+					args[1], errorMessage, "ALL"+message," ON "+ args[2]);
 			}else{
 				try{
 					int notesToDisplay=Integer.parseInt(args[3].trim());

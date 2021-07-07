@@ -32,6 +32,11 @@ public class ConfigManager {
 	private final String DEFAULT_UPDATE_SERVER_PATH="update_server_addr";
 	private final String DEFAULT_PORT_PATH="update_server_port";
 	private final String DEFAULT_LOOK_FOR_UPDATES_PATH="look_for_updates";
+	private final String MAIL_ACCOUNT_PATH = "mail_account_name";
+	private final String MAIL_PASSWORD_PATH = "mail_account_password";
+	private final String NOTIFY_PLAYER_PATH = "notify_player";
+	private final String NOTIFY_STAFF_PATH = "notify_staff";
+	private final String NOTES_THRESHOLD_NOTIFY_PATH = "notes_per_notify_threshold";
 	
 	//variables
 	private FileConfiguration customConfig;
@@ -66,7 +71,7 @@ public class ConfigManager {
 		File util=new File("util.txt");
 		Path path=Paths.get(util.getAbsolutePath());
 		String rootPlugin=path.getParent().toString();
-		configFolderPath=rootPlugin+File.separator+"DevilNotes" + File.separator;
+		configFolderPath=rootPlugin+File.separator+"AdminNotes" + File.separator;
 		File configFolder = new File (configFolderPath);
 		if(!configFolder.exists()){
 			configFolder.mkdirs();
@@ -82,14 +87,14 @@ public class ConfigManager {
 			try {
 				createDefaultCfg();
 			} catch (IOException e) {
-				Utils.printConsoleMsg("Impossibile creare il file di configurazione :/");
+				Utils.printConsoleMsg("Error during the write of configuration file, check write permissions on the folder!");
 			}
 		}
 		try {
 			readConfigData();
 
 		} catch (FileNotFoundException e) {
-			Utils.printConsoleMsg("Nessun file di configurazione trovato :/");
+			Utils.printConsoleMsg("No configuration file found!");
 		}
 	}
 
@@ -106,21 +111,21 @@ public class ConfigManager {
 	}
 
 	private synchronized void createDefaultCfg() throws IOException{
-		Utils.printConsoleMsg("Creando il file di configurazione per il primo avvio del plugin...");
+		Utils.printConsoleMsg("Creating configuration file for first plugin boot...");
 		customConfig.set(DEFAULT_NOTE_LENGTH_PATH, DEFAULT_NOTE_LENGTH);
 		customConfig.set(DEFAULT_NOTE_EXPIRING_TIME_PATH,DEFAULT_NOTE_EXPIRING_TIME);
 		customConfig.set(DEFAULT_RECORD_NOTE_EXPIRING_TIME_PATH,DEFAULT_RECORD_NOTE_EXPIRING_TIME);
 		customConfig.set(DEFAULT_LOOK_FOR_UPDATES_PATH, DEFAULT_LOOK_FOR_UPDATES);
 		customConfig.set(DEFAULT_UPDATE_SERVER_PATH,DEFAULT_UPDATE_SERVER);
 		customConfig.set(DEFAULT_PORT_PATH, DEFAULT_PORT);
-		customConfig.set("darkworld_mail", DEFAULT_MAIL);
-		customConfig.set("darkworld_mail_password", DEFAULT_PASSWORD);
-		customConfig.set("server_smtp", "smtp.gmail.com:587");
-		customConfig.set("notifica_giocatore", true);
-		customConfig.set("notifica_staff", true);
-		customConfig.set("numero_note_per_notifica", 2);
+		customConfig.set(MAIL_ACCOUNT_PATH, DEFAULT_MAIL);
+		customConfig.set(MAIL_PASSWORD_PATH, DEFAULT_PASSWORD);
+		//customConfig.set("server_smtp", "smtp.gmail.com:587");
+		customConfig.set(NOTIFY_PLAYER_PATH, true);
+		customConfig.set(NOTIFY_STAFF_PATH, true);
+		customConfig.set(NOTES_THRESHOLD_NOTIFY_PATH, 2);
 		customConfig.save(configFile);
-		Utils.printConsoleMsg("File di configurazione di default creato!");
+		Utils.printConsoleMsg("Configuration file correctly created!");
 	}
 
 	private synchronized void readConfigData() throws FileNotFoundException{
@@ -130,13 +135,13 @@ public class ConfigManager {
 		lookForUpdates=customConfig.getBoolean(DEFAULT_LOOK_FOR_UPDATES_PATH);
 		updateServer=customConfig.getString(DEFAULT_UPDATE_SERVER_PATH);
 		port=customConfig.getInt(DEFAULT_PORT_PATH);
-		darkworldMail=customConfig.getString("darkworld_mail");	
-		mailPassword=customConfig.getString("darkworld_mail_password");
-		smtpAddress=customConfig.getString("server_smtp");
-		notifyPlayer=customConfig.getBoolean("notifica_giocatore");
-		notifyStaff=customConfig.getBoolean("notifica_staff");
-		warnings=customConfig.getInt("numero_note_per_notifica");
-		Utils.printConsoleMsg("File di configurazione correttamente caricato!");
+		darkworldMail=customConfig.getString(MAIL_ACCOUNT_PATH);	
+		mailPassword=customConfig.getString(MAIL_PASSWORD_PATH);
+		smtpAddress="smtp.gmail.com:587";
+		notifyPlayer=customConfig.getBoolean(NOTIFY_PLAYER_PATH);
+		notifyStaff=customConfig.getBoolean(NOTIFY_STAFF_PATH);
+		warnings=customConfig.getInt(NOTES_THRESHOLD_NOTIFY_PATH);
+		Utils.printConsoleMsg("Configuration file correctly read");
 	}
 	/**
 	 * @return the maxNoteLength

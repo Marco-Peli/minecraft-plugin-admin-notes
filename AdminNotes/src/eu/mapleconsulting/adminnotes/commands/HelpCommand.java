@@ -37,7 +37,7 @@ public class HelpCommand extends CommandPattern {
 						"Invalid page number.");
 				return true;
 			}
-			executor.sendMessage(ChatColor.RED+"ADMINNOTES HELP PAGINA " +
+			executor.sendMessage(ChatColor.RED+"ADMINNOTES HELP PAGE NUMBER " +
 					ChatColor.WHITE+""+pageNumber +""+ChatColor.GOLD+":");
 			executor.sendMessage("-------------------------------");
 			
