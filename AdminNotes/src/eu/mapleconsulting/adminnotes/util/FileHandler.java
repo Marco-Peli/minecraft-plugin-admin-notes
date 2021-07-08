@@ -32,7 +32,7 @@ public abstract class FileHandler {
 		try{
 			int index=notesToBeDisplayed.size()-notesToDisplay;
 			if(notesToDisplay>notesToBeDisplayed.size()) throw new NullPointerException();
-			executor.sendMessage("LAST " + notesToDisplay + " NOTES "
+			executor.sendMessage("LAST " + notesToDisplay
 					+message + ChatColor.RED+ authorName+":");
 			for(int i=index; i<notesToBeDisplayed.size();i++){
 				int displayedIndex=i+1;
