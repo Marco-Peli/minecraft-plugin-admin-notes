@@ -38,7 +38,7 @@ public class HelpCommand extends CommandPattern {
 				return true;
 			}
 			executor.sendMessage(ChatColor.RED+"ADMINNOTES HELP PAGE NUMBER " +
-					ChatColor.WHITE+""+pageNumber +""+ChatColor.GOLD+":");
+					ChatColor.WHITE+""+pageNumber +ChatColor.GOLD+" OF "+ChatColor.WHITE+"2"+ChatColor.GOLD+":");
 			executor.sendMessage("-------------------------------");
 			
 			return displayHelpCommand(executor);
