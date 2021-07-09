@@ -18,62 +18,73 @@ note.command.*:
         note.command.update: true
         note.command.flagasnotexpired: true
         note.command.help: true
+        note.command.sendmenote: true
+        note.command.sendmerecord: true
 note.helpercommands.*:
-    description: Commands for non-ops and non-admins
+    description: Commands suggested for helpers
     children:
         note.command.write: true
         note.command.seelast: true
         note.command.lastbyauthor: true
         note.command.notify: true
         note.command.help: true
+note.modcommand.*:
+    description: Commands suggested for moderators
+    children:
+        note.command.confirm: true
+        note.command.abort: true
+        note.command.addmail: true
+        note.command.displaymail: true
+        note.command.sendmenote: true
+        note.command.sendmerecord: true
 note.command.write:
-    description: Il giocatore puo' usare /note write
+    description: Player can use /note write
     default: op
 note.command.seelast:
-    description: Il giocatore puo' usare /note seelast
+    description: Player can use /note seelast
     default: op
 note.command.record:
-    description: Il giocatore puo' usare /note record
+    description: Player can use /note record
     default: op
 note.command.lastbyauthor:
-    description: Il giocatore puo' usare /note lastbyauthor
+    description: Player can use /note lastbyauthor
     default: op
 note.command.clean:
-    description: Il giocatore puo' usare /note clean
+    description: Player can use /note clean
     default: op
 note.command.addmail:
-    description: Il giocatore puo' usare /note addmail
+    description: Player can use /note addmail
     default: op
 note.command.sendmenote:
-    description: Il giocatore puo' usare /note sendnote
+    description: Player can use /note sendnote
     default: op
 note.command.displaymail:
-    description: Il giocatore puo' usare /note sendnote
+    description: Player can use /note sendnote
     default: op
 note.command.flagexpired:
-    description: Il giocatore puo' usare /note flagexpired
+    description: Player can use /note flagexpired
     default: op
 note.command.reload:
-    descriprion: Il giocatore puo' usare /note reload
+    descriprion: Player can use /note reload
     default: op
 note.command.delete:
-    description: Il giocatore puo' usare /note delete
+    description: Player can use /note delete
     default: op
 note.command.notify:
-    description: Il giocatore e' notificato quando entra un player con piu' di n richiami
+    description: Player is notified when a player with more than [notes_per_notify_threshold] notes, join
     default: op
 note.command.flagasnotexpired:
-    description: Il giocatore puo' usare il comando /note flagasnotexpired
+    description: Player can use /note flagasnotexpired
     default: op
 note.command.confirm:
-    description: Il giocatore puo' usare il comando /note confirm
+    description: Player can use /note confirm
     default: op
 note.command.abort:
-    description: Il giocatore puo' usare il comando /note abort
+    description: Player can use /note abort
     default: op
 note.command.update:
-    description: Al giocatore e' notificata la presenza di nuove versioni del plugin
+    description: Currently not implemented
     default: op
 note.command.help:
-    description: Il giocatore puo' usare /note help
+    description: Player can use /note help
     default: op
